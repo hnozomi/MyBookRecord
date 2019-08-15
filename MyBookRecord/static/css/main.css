@@ -1,0 +1,165 @@
+.wrappers {
+  width: 80%;
+  margin: 0 auto;
+
+}
+
+header {
+  width: 100%;
+  height: 30%;
+}
+
+.header-image {
+  text-align: center;
+  height: 300px;
+  background-color: pink;
+}
+
+.header-image img {
+  height: 300px;
+  width: 784px;
+}
+
+.header-nav li{
+  width: 24.3%;
+  display: inline-block;
+  text-align: center;
+}
+
+nav {
+  border-bottom: 1px solid #000;
+}
+nav ul {
+  display: table;
+  margin: 0 auto;
+  padding: 0;
+  width: 80%;
+  text-align: center;
+}
+nav ul li {
+  display: table-cell;
+  min-width: 50px;
+  border-right: 1px solid #000;
+}
+nav ul li:first-child {
+  border-left: 1px solid #000;
+}
+nav ul li a {
+  display: block;
+  width: 100%;
+  padding: 10px 0;
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+}
+nav ul li a:hover {
+  background-color:#F8E750;
+  border-bottom: 5px solid #F8E750;
+}
+nav ul li.current {
+  font-weight: bold;
+}
+nav ul li.current a {
+  border-bottom: 5px solid #00B0F0;
+  color: #00B0F0;
+}
+
+
+.contents-wrapper {
+  display: flex;
+  justify-content: space-around;
+  margin: 100px 0;
+}
+
+.content-image {
+  width: 40%;
+  height: 200px;
+  background-color: green;
+}
+
+.recommend {
+  margin: 100px 0;
+}
+
+.recommend-wrapper {
+  display: flex;
+  justify-content: space-around;
+}
+
+.recommend-title {
+  padding: 10px 0;
+}
+
+.recommend-wrap {
+  width: 30%;
+  height: 200px;
+  background-color: green;
+  position: relative;
+}
+
+.recommend-image {
+
+}
+
+.recommend-text {
+  position: absolute;
+  bottom: 0;
+}
+
+.bookshelf-image {
+  width: 30%;
+  height: 200px;
+  background-color: green;
+}
+
+.content-text {
+  width: 40%;
+  height: auto;
+  background-color: blue;
+}
+
+.like-phrase {
+  background-color: green;
+}
+
+.impression {
+  background-color: red;
+  margin: 30px 0;
+
+}
+
+.profile {
+  width: 100%;
+  height: 300px;
+  background-color: green;
+  position: relative;
+}
+
+.profile-img {
+  width: 40%;
+  height: auto;
+  background-color: blue;
+  float: left;
+  position: absolute;
+  top: 70px;
+  left: 0px;
+}
+
+.profile-text {
+  float: left;
+  width: 60%;
+  background-color: pink;
+  position: absolute;
+  top: 70px;
+  right: 0px;
+}
+
+.other-app {
+  margin: 70px 0;
+  background-color: orange;
+}
+
+footer {
+  background-color: yellow;
+  text-align: right;
+}

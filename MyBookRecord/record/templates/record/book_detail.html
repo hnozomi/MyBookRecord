@@ -1,0 +1,42 @@
+{% extends 'record/base.html' %}
+{% load static %}
+{% block title %} 詳細ページ {% endblock %}
+
+{% block content %}
+
+    <div class="contents-wrapper">
+      <div class="content-image">
+        <p>写真が入る予定</p>
+      </div>
+      <div class="content-text">
+        <label>タイトル</label>
+        <p>砂漠</p>
+        <label>著者</label>
+        <p>伊坂幸太郎</p>
+        <label>ジャンル</label>
+        <p>小説</p>
+        <label>読書完了日</label>
+        <p>8/12</p>
+      </div>
+
+    </div>
+    <div class="detail-wrapper">
+      <div class="like-phrase">
+        <!-- ここの文章を押すとポップアップでコメントを入力できる -->
+        <!-- コメントがついているかわかるようにする -->
+        <label>気に入った文章</label>
+        <p>ページ数</p>
+        <p>いつも笑顔でいれば幸せは訪れる</p>
+      </div>
+      <div class="impression">
+        <label>感想</label>
+        <p>面白かったです</p>
+      </div>
+    </div>
+
+    {% endblock %}
+
+  </div>
+</body>
+
+</html>
