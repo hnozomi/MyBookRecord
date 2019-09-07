@@ -5,12 +5,49 @@
 {% block content %}
 
      <div class="book-data">
-       <h1>読書データ</h1>
-       <p>グラフの挿入</p>
+       <h1 class="book_title">読書データ</h1>
+       <canvas id="MyChart" style="position: relative; width="220" height="220"></canvas>
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+       <script>
+         var ctx = document.getElementById("MyChart");
+         Chart.defaults.global.defaultFontColor = 'white';
+         var myBarChart = new Chart(ctx, {
+           type: 'bar',
+           data: {
+             labels: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+             datasets: [
+               {
+                 label: '月ごとの読書数',
+                 data: [{{book_count.0}}, {{book_count.1}}, {{book_count.2}}, {{book_count.3}}, {{book_count.4}}, {{book_count.5}}, {{book_count.6}}, {{book_count.7}}, {{book_count.8}}, {{book_count.9}}, {{book_count.10}}, {{book_count.11}}],
+                 backgroundColor: "rgba(255,255,255,0.8)"
+               }
+             ]
+           },
+           options: {
+             scales: {
+               yAxes: [{
+                 ticks: {
+                   suggestedMax: 30,
+                   suggestedMin: 0,
+                   stepSize: 5,
+                   callback: function(value, index, values){
+                     return  value +  '冊'
+                   }
+                 }
+               }]
+             },
+           }
+         });
+       </script>
      </div>
-     <p>本棚にある冊数</p>
-     <p>月ごとの冊数</p>
-     <p>カテゴリーごとの冊数</p>
+     <div class="book_info">
+       <p>今月の読書冊数 ⇒  <span>{{ this_month }}冊</span></p>
+       <br>
+       <p>先月の読書冊数 ⇒  <span>{{ last_month }}冊</span></p>
+       <br>
+       <p>合計冊数 ⇒  <span>{{ book_total }}冊</span></p>
+       <br>
+    </div>
 
 {% endblock %}
     </div>

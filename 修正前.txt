@@ -1,0 +1,161 @@
+from django.shortcuts import render
+from django.template.response import TemplateResponse
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+import requests
+
+
+# Create your views here.
+
+def base(request):
+    return TemplateResponse(request, 'record/base.html')
+
+def book_detail(request):
+    return TemplateResponse(request, 'record/book_detail.html')
+
+def bookshelf(request):
+    return TemplateResponse(request, 'record/bookshelf.html')
+
+def data(request):
+    return TemplateResponse(request, 'record/data.html')
+
+def profile(request):
+    return TemplateResponse(request, 'record/profile.html')
+
+def recommend(request):
+    return TemplateResponse(request, 'record/recommend.html')
+
+
+@csrf_exempt
+def webhook(request):
+    URL = 'https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404'
+    APPLICATION_ID = '1038292838489630214'
+    req = json.loads(request.body)
+    text = req.get('queryResult').get('queryText')
+    intent_name = req.get('queryResult').get('intent').get('displayName')
+# 4択により押されたボタンを取得して処理
+# タイトルを入れるタイミングが必要
+
+    if intent_name == 'Registration - TitleResponse - TestResponse':
+        outputContext = req.get('queryResult').get('outputContexts')[0]
+        context_text = outputContext.get('parameters').get('Process')
+
+        if context_text == "登録":
+            parameters = {
+          'applicationId': APPLICATION_ID,
+          'title': '砂漠',
+          'author': '伊坂幸太郎',
+        }
+
+            r = requests.get(URL, params=parameters)
+            item_data = r.json()['Items'][0]["Item"]
+            image = item_data.get('largeImageUrl')
+
+
+        # タイトルを入力してください
+        # inputとかで入力を待って入力された文字で検索
+            fulfillmentMessages = { "fulfillmentMessages": [
+                    {
+                      "card": {
+                        "title": "aaa",
+                        "subtitle": "author",
+                        "imageUri": image,
+                        "buttons": [
+                          {
+                            "text": "この本で間違いないなら押してください",
+                            "postback": "http://3628bb64.ngrok.io/"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+            }
+        return JsonResponse(fulfillmentMessages)
+
+    else:
+
+# 4択の時はここを表示
+        parameters = {
+          'applicationId': APPLICATION_ID,
+          'title': '砂漠',
+          'author': '伊坂幸太郎',
+        }
+
+        r = requests.get(URL, params=parameters)
+        item_data = r.json()['Items'][0]["Item"]
+        image = item_data.get('largeImageUrl')
+
+        fulfillmentMessages = { "fulfillmentMessages": [
+            {
+              "card": {
+                "title": "読書管理",
+                "subtitle": "自分",
+                "imageUri": image,
+                "buttons": [
+                  {
+                    "text": "登録",
+                  },
+                  {
+                    "text": "修正",
+                    "postback": "http://3628bb64.ngrok.io"
+                  },
+                  {
+                    "text": "削除",
+                    "postback": "http://3628bb64.ngrok.io"
+                  },
+                  {
+                    "text": "キャンセル",
+                    "postback": "http://3628bb64.ngrok.io"
+                  }
+                ]
+              }
+            }
+          ]
+    }
+
+        return JsonResponse(fulfillmentMessages)
+
+@csrf_exempt
+def register(request):
+    URL = 'https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404'
+    APPLICATION_ID = '1038292838489630214'
+    if request.method == 'GET':
+        return HttpResponse({})
+
+    else:
+        req = json.loads(request.body)
+        text = req.get('queryResult').get('queryText')
+        print(text)
+        parameters = {
+          'applicationId': APPLICATION_ID,
+          'title': text,
+          'author': '伊坂幸太郎',
+        }
+
+        r = requests.get(URL, params=parameters)
+
+        item_data = r.json()['Items'][0]["Item"]
+        title = item_data.get('title')
+        author = item_data.get('author')
+        publishername = item_data.get('publisherName')
+        image = item_data.get('largeImageUrl')
+
+        fulfillmentMessages = { "fulfillmentMessages": [
+        {
+          "card": {
+            "title": title,
+            "subtitle": author,
+            "imageUri": image,
+            "buttons": [
+              {
+                "text": "この本で間違いないなら押してください",
+                "postback": "http://3628bb64.ngrok.io/"
+              }
+            ]
+          }
+        }
+      ]
+}
+
+        return JsonResponse(fulfillmentMessages)

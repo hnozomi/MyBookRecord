@@ -6,19 +6,33 @@
 
 
       <div class="contents-wrapper bookshelf-wrapper">
+        {% for book in books %}
         <div class="content-image bookshelf-image">
-          <p>写真が入る予定</p>
+          <a href="{% url 'record:book_detail' book_id=book.id %}"><img src="{{ book.image }}"></a>
         </div>
-        <div class="content-image bookshelf-image">
-          <p>写真が入る予定</p>
-        </div>
-        <div class="content-image bookshelf-image">
-          <p>写真が入る予定</p>
-        </div>
+        {% endfor %}
       </div>
+
+
+      <div class="paginator">
+         {% if books.has_previous %}
+         <a href="?page={{ books.previous_page_number }}">&lt; 前のページ</a>
+         {% else %}
+         <span>&lt; 前のページ</span>
+         {% endif %}
+
+         <span class="current-page">{{ books.number }}</span>
+
+         {% if books.has_next %}
+         <a href="?page={{ books.next_page_number }}">次のページ &gt;</a>
+         {% else %}
+         <span>次のページ &gt;</span>
+         {% endif %}
+       </div>
+
 {% endblock %}
-    </div>
-    <!-- ページネーションの必要あり -->
+</div>
+
   </body>
 
   </html>

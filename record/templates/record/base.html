@@ -3,9 +3,10 @@
 <!DOCTYPE html>
   <html lang="ja">
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0 ,user-scalable=no,minimum-scale=1.0">
     <title>{% block title %}My Book Record{% endblock %}</title>
   </head>
 
@@ -14,12 +15,12 @@
     <div class="wrappers">
       <header>
         <div class="header-image">
-          <img src="{% static 'img/IMG_0074.png' %}" alt="ヘッダー画像">
+          <a href="{% url 'record:base' %}"></a>
         </div>
         <nav>
           <ul class="header-nav">
             <li><a href="{% url 'record:bookshelf' %}">本棚</a></li>
-            <li><a href="{% url 'record:recommend' %}">オススメランキング</a></li>
+            <li><a href="{% url 'record:recommend' %}">ランキング</a></li>
             <li><a href="{% url 'record:data' %}">読書データ</a></li>
             <li><a href="{% url 'record:profile' %}">プロフィール</a></li>
           </ul>
@@ -27,41 +28,48 @@
       </header>
 {% block content %}
       <div class="contents-wrapper">
+{% if books %}
+{% for book in books %}
+     <div class="content-list"><a href="{% url 'record:book_detail' book_id=book.id%}">
         <div class="content-image">
-          <p><a href="{% url 'record:book_detail' %}">写真が入る予定</a></p>
+          <p><img src="{{ book.image }}"</p>
         </div>
-        <div class="content-text">
-          <label>タイトル</label>
-          <p>砂漠</p>
-          <label>著者</label>
-          <p>伊坂幸太郎</p>
-          <label>ジャンル</label>
-          <p>小説</p>
-          <label>読書完了日</label>
-          <p>8/12</p>
+        <div class="content-texts">
+          <div class="content-text">
+          <h1 class="text">タイトル</h1>
+          <p class="text">{{ book.title }}</p>
+          </div>
+          <div class="content-text">
+          <h1 class="text">著者</h1>
+          <p class="text">{{ book.author }}</p>
+          </div>
+          <div class="content-text">
+          <h1 class="text">登録完了日</h1>
+          <p class="text">{{ book.register_day }}</p>
+          </div>
         </div>
-
-      </div>
-      <div class="contents-wrapper">
-        <div class="content-image">
-          <p>写真が入る予定</p>
-        </div>
-        <div class="content-text">
-          <label>タイトル</label>
-          <p>砂漠</p>
-          <label>著者</label>
-          <p>伊坂幸太郎</p>
-          <label>ジャンル</label>
-          <p>小説</p>
-          <label>読書完了日</label>
-          <p>8/12</p>
-        </div>
-{% endblock %}
-      </div>
-      <footer>
-        2019-08-14 start
-      </footer>
     </div>
+    </a>
+{% endfor %}
+{% endif %}
+      </div>
+      <div class="paginator">
+        {% if books.has_previous %}
+        <a href="?page={{ books.previous_page_number }}">&lt; 前のページ</a>
+        {% else %}
+        <span>&lt; 前のページ</span>
+        {% endif %}
+
+        <span class="current-page">{{ books.number }}</span>
+
+        {% if books.has_next %}
+        <a href="?page={{ books.next_page_number }}">次のページ &gt;</a>
+        {% else %}
+        <span>次のページ &gt;</span>
+        {% endif %}
+      </div>
+      </div>
+{% endblock %}
     <!-- ここまで複数個あり -->
     <!-- ページネーションの必要あり -->
   </body>

@@ -4,39 +4,51 @@
 
 {% block content %}
 
-    <div class="contents-wrapper">
-      <div class="content-image">
-        <p>写真が入る予定</p>
-      </div>
-      <div class="content-text">
-        <label>タイトル</label>
-        <p>砂漠</p>
-        <label>著者</label>
-        <p>伊坂幸太郎</p>
-        <label>ジャンル</label>
-        <p>小説</p>
-        <label>読書完了日</label>
-        <p>8/12</p>
-      </div>
-
+<div class="contents-wrapper">
+  {% for book in books %}
+  <div class="content-list">
+    <div class="content-image">
+      <p><img src="{{ book.image }}" </p> </div> <div class="content-texts">
+        <div class="content-text">
+          <h1 class="text">タイトル</h1>
+          <p class="text">{{ book.title }}</p>
+        </div>
+        <div class="content-text">
+          <h1 class="text">著者</h1>
+          <p class="text">{{ book.author }}</p>
+        </div>
+        <div class="content-text">
+          <h1 class="text">読書完了日</h1>
+          <p class="text">{{ book.register_day }}</p>
+        </div>
     </div>
-    <div class="detail-wrapper">
-      <div class="like-phrase">
-        <!-- ここの文章を押すとポップアップでコメントを入力できる -->
-        <!-- コメントがついているかわかるようにする -->
-        <label>気に入った文章</label>
-        <p>ページ数</p>
-        <p>いつも笑顔でいれば幸せは訪れる</p>
-      </div>
-      <div class="impression">
-        <label>感想</label>
-        <p>面白かったです</p>
-      </div>
-    </div>
-
-    {% endblock %}
-
+    {% endfor %}
   </div>
+
+</div>
+<div class="detail-wrapper">
+  <div class="like-phrase">
+    <h1>気に入った文章</h1>
+    <br>
+  </div>
+
+    {% for ph in phrase %}
+      <div class="phrase_text">
+        <span class="phrase_page">P{{ ph.page }}</span>
+        {{ ph.like_phrase }}
+      </div>
+    {% empty %}
+      <div class="nothing_phrase">
+        <p>好きなフレーズが登録されていません</p>
+      </div>
+    {% endfor %}
+
+</div>
+
+
+{% endblock %}
+
+</div>
 </body>
 
 </html>
