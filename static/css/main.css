@@ -400,7 +400,7 @@ table {
     float: left;
     position: absolute;
     border-radius: 100%;
-    background-image: url("/static/img/大きい丸.PNG") ;
+    background-image: url("/static/img/pc_prof.PNG") ;
     background-repeat: no-repeat;
   }
 }
@@ -413,7 +413,7 @@ table {
   position: absolute;
   left: -30px;
   border-radius: 50%;
-  background-image: url("/static/img/丸.PNG") ;
+  background-image: url("/static/img/iphone_prof.PNG") ;
   background-repeat: no-repeat;
 }
 }
