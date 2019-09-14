@@ -94,6 +94,7 @@ def recommend(request):
 
 @csrf_exempt
 def webhook(request):
+    print('ここまでは来ています')
     req = json.loads(request.body)
     intent_name = req.get('queryResult').get('intent').get('displayName')
     text = req.get('queryResult').get('queryText')
