@@ -20,3 +20,6 @@ urlpatterns = [
     path('', include('record.urls')),
     path('admin/', admin.site.urls),
 ]
+
+
+urlpatterns += static.static(settings.CERT_URL, document_root=settings.CERT_ROOT)
