@@ -32,7 +32,7 @@
 {% for book in books %}
      <div class="content-list"><a href="{% url 'record:book_detail' book_id=book.id%}">
         <div class="content-image">
-          <p><img src="{{ book.image }}"</p>
+          <p><img src="{{ book.image }}"></p>
         </div>
         <div class="content-texts">
           <div class="content-text">
