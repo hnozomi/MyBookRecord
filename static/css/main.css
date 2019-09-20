@@ -389,48 +389,67 @@ table {
 
 .profile {
   width: 100%;
-  height: 200px;
-  position: relative;
+  height: 100%;
+  /* position: relative; */
+  /* display: inline-block; */
+}
+
+.profile-img img {
+  display: none;
+}
+
+@media screen and (min-width:1024px) {
+  .pc_prof1 img {
+    display: inline;
+    padding: 1em;
+  }
+}
+
+@media screen and (max-width:639px) {
+.iphone_prof1 img {
+  display: inline;
+  padding: 0.5em 0.2em;
+}
 }
 
 @media screen and (min-width:1024px) {
   .profile-img {
-    width: 50%;
-    height: 300px;
-    float: left;
-    position: absolute;
+    /* width: 48%; */
     border-radius: 100%;
-    background-image: url("/static/img/pc_prof.png") ;
+    /* background-image: url("/static/img/pc_prof1.png") ; */
     background-repeat: no-repeat;
+    display: inline-block;
+    vertical-align: middle;
   }
 }
 
 @media screen and (max-width:639px) {
 .profile-img {
-  width: 100%;
-  height: 250px;
-  float: left;
-  position: absolute;
-  left: -30px;
+  width: 46%;
   border-radius: 50%;
-  background-image: url("/static/img/iphone_prof.png") ;
+  /* background-image: url("/static/img/iphone_prof.png") ; */
   background-repeat: no-repeat;
+  display: inline-block;
+  vertical-align: middle;
 }
 }
 
 .profile-text {
   color: #FFF;
-  float: left;
-  width: 48%;
-  position: absolute;
+  /* width: 48%; */
   padding: 20px 10px;
-  right: 0px;
   font-size: 18px;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 @media screen and (max-width:639px) {
 .profile-text {
+  width: 50%;
   font-size: 14px;
+  display: inline-block;
+  vertical-align: middle;
+  padding: 0.5em 0.2em;
 }
 }
 
@@ -457,9 +476,22 @@ table {
   margin-top: 20px;
 }
 
+@media screen and (max-width:639px) {
+.profile-list:last-child {
+  font-size: 12px;
+}
+}
+
 .introduction, .other-app {
   height: auto;
   padding: 2em 1.5em;
+}
+
+@media screen and (max-width:639px) {
+  .introduction, .other-app {
+    height: auto;
+    padding: 1.0em 1.0em;
+  }
 }
 
 @media screen and (min-width:1024px) {
@@ -494,10 +526,10 @@ table {
   content: '';
   position: absolute;
   top: 50%;
-  left: 450px;
+  left: 350px;
   display: inline-block;
   height: 3px;
-  width: 360px;
+  width: 460px;
   background-color: white;
 }
 
@@ -512,7 +544,7 @@ table {
 
 @media screen and (max-width:639px) {
 .introduction h1 {
-  margin-bottom: 1em;
+  margin-bottom: 0.5em;
   font-size: 22px;
   position: relative;
   display: inline-block;
@@ -531,7 +563,7 @@ table {
 }
 
 .other-app h1 {
-  margin-bottom: 1em;
+  margin-bottom: 0.5em;
   font-size: 24px;
   position: relative;
   display: inline-block;
@@ -564,12 +596,14 @@ table {
 .introduction p {
   margin-top: 5px;
   line-height: 1.4em;
+  font-size: 16px;
   word-wrap: break-word;
 }
 
 .other-app p {
   margin-top: 5px;
   line-height: 1.4em;
+  font-size: 16px;
   word-wrap: normal;
 }
 }
