@@ -303,7 +303,7 @@ nav ul li.current a {
 .recommend-wrap {
   width: 30%;
   height: 200px;
-  background-color: green;
+  background-color: gray;
   position: relative;
 }
 
@@ -408,7 +408,7 @@ table {
 @media screen and (max-width:639px) {
 .iphone_prof1 img {
   display: inline;
-  padding: 0.5em 0.2em;
+  padding: 1em 0.2em;
 }
 }
 
@@ -437,7 +437,7 @@ table {
 .profile-text {
   color: #FFF;
   /* width: 48%; */
-  padding: 20px 10px;
+  padding: 1em 0.2em;
   font-size: 18px;
   display: inline-block;
   vertical-align: middle;
@@ -454,9 +454,9 @@ table {
 }
 
 
-.profile-text h1 {
+/* .profile-text h1 {
   border-bottom: solid 1px black;
-}
+} */
 
 .profile-text p {
   padding-top: 8px;
@@ -490,7 +490,7 @@ table {
 @media screen and (max-width:639px) {
   .introduction, .other-app {
     height: auto;
-    padding: 1.0em 1.0em;
+    padding: 1em 1.0em;
   }
 }
 
@@ -545,7 +545,7 @@ table {
 @media screen and (max-width:639px) {
 .introduction h1 {
   margin-bottom: 0.5em;
-  font-size: 22px;
+  font-size: 20px;
   position: relative;
   display: inline-block;
   padding: 0 55px 0 0;
@@ -555,32 +555,32 @@ table {
   content: '';
   position: absolute;
   top: 50%;
-  left: 110px;
+  left: 90px;
   display: inline-block;
-  height: 3px;
-  width: 215px;
+  height: 2px;
+  width: 245px;
   background-color: white;
 }
 
 .other-app h1 {
   margin-bottom: 0.5em;
-  font-size: 24px;
+  font-size: 20px;
   position: relative;
   display: inline-block;
   /* padding: 0 55px 0 0; */
   padding: 0 0 0 0;
 }
 
-/* .other-app h1:after {
+.other-app h1:after {
   content: '';
   position: absolute;
   top: 50%;
-  left: 250px;
+  left: 295px;
   display: inline-block;
-  height: 3px;
-  width: 80px;
+  height: 2px;
+  width: 35px;
   background-color: white;
-} */
+}
 
 .introduction blockquote {
   font-size: 14px;
