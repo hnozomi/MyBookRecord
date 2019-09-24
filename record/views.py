@@ -9,6 +9,7 @@ from datetime import datetime, timedelta
 import json
 import requests
 import sys
+import os
 from . import models
 import collections
 
@@ -31,9 +32,9 @@ def base(request):
                              })
 
 
+# 本の詳細画面
 def book_detail(request, book_id):
     books = Book.objects.filter(id=book_id)
-    # ph = Likephrase.objects.values('like_phrase').filter(book_id=book_id)
     ph = Likephrase.objects.filter(book_id=book_id)
     book_page = Likephrase.objects.values('page').filter(book_id=book_id)
 
@@ -41,7 +42,6 @@ def book_detail(request, book_id):
                                      {'books': books,
                                       'phrase': ph,
                                       'book_page': book_page })
-
 
 
 def bookshelf(request):
@@ -94,8 +94,8 @@ def recommend(request):
 
 @csrf_exempt
 def webhook(request):
-    print('ここまでは来ています')
     req = json.loads(request.body)
+    # intent_name = req.get('queryResult').get('intent').get('displayName')
     intent_name = req.get('queryResult').get('intent').get('displayName')
     text = req.get('queryResult').get('queryText')
     session_id = req['session']
@@ -246,24 +246,7 @@ def webhook(request):
         book = get_object_or_404(models.Book, id = pk)
         Likephrase.objects.create(book=book, like_phrase=text, page=number)
         data = collections.OrderedDict()
-        # fulfillmentMessages = {"fulfillmentMessages": [
-        #             {
-        #               "card": {
-        #                     "title": "登録が完了しました",
-        #                     "subtitle": "続いて好きなフレーズを登録しますか？",
-        #                     "imageUri": 'https://cdn.pixabay.com/photo/2016/06/01/06/26/open-book-1428428__340.jpg',
-        #                     "buttons": [
-        #                         {
-        #                             "text": "YES",
-        #                         },
-        #                         {
-        #                             "text": "NO",
-        #                         },
-        #                     ]
-        #                 }
-        #             }
-        #         ]
-        #         }
+
         data["fulfillmentMessages"] = [
                     {
                       "card": {
@@ -287,13 +270,12 @@ def webhook(request):
             ('lifespanCount', 5)
         ]),
         ]
-        # return JsonResponse(fulfillmentMessages)
         return JsonResponse(data)
 
 # 　入力された情報をもとに、APIを実行し本の情報を取得する
 def RakutenAPI(request):
     URL = 'https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404'
-    APPLICATION_ID = '1038292838489630214'
+    APPLICATION_ID = os.environ["APPLICATION_ID"]
     req = json.loads(request.body)
     intent_name = req.get('queryResult').get('intent').get('displayName')
     outputContext = req.get('queryResult').get('outputContexts')[-1]
@@ -430,12 +412,3 @@ def CheckBook(list):
     else:
         msg = 'すでに登録されています'
         return msg
-
-# def DeleteBook(book_title):
-
-
-# def AllDeleteBook(book_title):
-#     title = book_title
-#     Book.objects.all().delete()
-#     print('削除成功')
-#     return title
