@@ -12,6 +12,7 @@ import sys
 import os
 from . import models
 import collections
+import logging
 
 
 # Create your views here.
@@ -107,11 +108,17 @@ def webhook(request):
 
 # 　タイトルを入力してコンテキストの情報を取得する
     if intent_name == 'Registration - ChoiceResponse - TitleResponse':
-        outputContext = req.get('queryResult').get('outputContexts')[-1]
+        outputContext = req.get('queryResult').get('outputContexts')[-2]
         context_text = outputContext.get('parameters').get('Process')
+
+        if context_text == None:
+            fulfillmentText = {"fulfillmentText": "異常が発生しました"}
+            return JsonResponse(fulfillmentText)
+
 
 # 　コンテキストの名前が登録ならAPIを呼び出して、その情報を元に登録したい本に間違いないか確認
         if context_text == "本棚に追加":
+
             list = RakutenAPI(request)
             if type(list) == str:
 
@@ -143,7 +150,7 @@ def webhook(request):
 
                 return JsonResponse(fulfillmentMessages)
 
-
+# __system_counters__がいつのまにか増えているとしたら全部1マイナスを増やしてみる
 
             else:
                 fulfillmentMessages = ConfirmBook(list)
@@ -151,18 +158,20 @@ def webhook(request):
 
 #  APIで本の情報を取得後、YESならその情報を元にデータ作成(登録の最終ステップ)
     if text == "YES":
-        outputContext = req.get('queryResult').get('outputContexts')[-1]
-        outputContext_2 = req.get('queryResult').get('outputContexts')[-2]
+        outputContext = req.get('queryResult').get('outputContexts')[-2]
+        outputContext_2 = req.get('queryResult').get('outputContexts')[-3]
         context_text = outputContext.get('parameters').get('Process')
         context_text_2 = outputContext_2.get('parameters').get('Process')
+        context_title = outputContext.get('parameters').get('any')
 
         if context_text == "本棚に追加":
             if intent_name == "Registration - ChoiceResponse - TitleResponse - YesResponse":
+
                 list = RakutenAPI(request)
                 title = list[0]
                 author = list[1]
                 image = list[2]
-                msg = CheckBook(list)
+                msg = CheckBook(title)
 
                 if msg == "":
                     book = Book.objects.create(title=title, author=author, image=image)
@@ -188,7 +197,7 @@ def webhook(request):
                     return JsonResponse(fulfillmentText)
 
         elif context_text_2 == "本棚から削除":
-            outputContext = req.get('queryResult').get('outputContexts')[-1]
+            outputContext = req.get('queryResult').get('outputContexts')[-2]
             title = outputContext.get('parameters').get('any')
             Book.objects.filter(title__icontains=title).delete()
             fulfillmentText = {"fulfillmentText": "削除が完了しました"}
@@ -196,7 +205,7 @@ def webhook(request):
 
 # 　タイトルだけでは商品情報が取得できずに著者名を入力する場合
     if intent_name == "Registration - ChoiceResponse - TitleResponse - NoResponse - AuthorResponse":
-        outputContext = req.get('queryResult').get('outputContexts')[-1]
+        outputContext = req.get('queryResult').get('outputContexts')[-2]
         author = outputContext.get('parameters').get('person').get('name')
         list = RakutenAPI(request)
         fulfillmentMessages = ConfirmBook(list)
@@ -224,7 +233,6 @@ def webhook(request):
                 ('lifespanCount', 0)
             ]),
     ]
-            # return JsonResponse(fulfillmentText)
             return JsonResponse(data)
 
         else:
@@ -278,7 +286,7 @@ def RakutenAPI(request):
     APPLICATION_ID = os.environ["APPLICATION_ID"]
     req = json.loads(request.body)
     intent_name = req.get('queryResult').get('intent').get('displayName')
-    outputContext = req.get('queryResult').get('outputContexts')[-1]
+    outputContext = req.get('queryResult').get('outputContexts')[-2]
     title = outputContext.get('parameters').get('any')
     context_text = outputContext.get('parameters').get('Judge')
 
@@ -401,11 +409,9 @@ def Start():
     return fulfillmentMessages
 
 
-def CheckBook(list):
-    title = list[0]
-    # , author__iexact=author
-    book_exact = Book.objects.filter(title__iexact=title)
-    if book_exact.first() is None:
+def CheckBook(title):
+    book_exact = Book.objects.filter(title__iexact=title).count()
+    if book_exact == 0:
         msg = ""
         return msg
 
